@@ -109,15 +109,17 @@ JogoDAO.prototype.getAcoes = function(res, usuario){
 		collection: "acao",
 		callback: function(err, result) {
 			
-			//console.log(result);
+			
 
 			result.toArray(function(errArray, resultArray){
 
 				//console.log(usuario);
-				//console.log(resultArray);
+				
 
 				res.render("pergaminhos", {acoes: resultArray});
+				console.log(resultArray);
 			});
+			//console.log(result);
 		}
 	};
 	this._connection(dados);

@@ -1,3 +1,5 @@
+var crypto = require("crypto");
+
 function UsuariosDAO(connection){
 	this._connection = connection;
 }
@@ -7,12 +9,17 @@ function UsuariosDAO(connection){
                 documento: usuario,
                 collection: "usuarios",
                 callback: function(err, result) {
-                    res.send("callback de inserirUsuario");
+                  //  res.send("callback de inserirUsuario");
+                  
                 }
+                
             };
+            var senha_criptografada = crypto.createHash("md5").update(usuario.senha).digest("hex");
+                  usuario.senha = senha_criptografada;
+                  console.log(senha_criptografada);
             this._connection(dados);
-            console.log(dados);
-        };
+            
+        }
     UsuariosDAO.prototype.autenticar = function(usuario, req, res){
         console.log(usuario);
         var dados = {
@@ -20,7 +27,8 @@ function UsuariosDAO(connection){
             documento: usuario,
             collection: "usuarios",
             callback: function(err, result) {
-    
+                var senha_criptografada = crypto.createHash("md5").update(usuario.senha).digest("hex");
+                usuario.senha = senha_criptografada;
                 result.toArray(function(errArray, resultArray){
     
                     if(resultArray[0] != undefined){
